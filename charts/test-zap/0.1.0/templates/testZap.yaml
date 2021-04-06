@@ -43,5 +43,11 @@ spec:
               value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: GIT_COMMIT_ID
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
+          volumeMounts:
+            - mountPath: /zap/wrk
+              name: zap-wrk
+      volumes:
+        - name: zap-wrk
+          emptyDir: {}
       restartPolicy: Never
   backoffLimit: 4
