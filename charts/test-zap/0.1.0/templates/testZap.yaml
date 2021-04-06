@@ -16,7 +16,7 @@ spec:
         - name: test-zap-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: iiiorg/zap-runner:{{ .Values.zap.runnerVersion }}
           imagePullPolicy: IfNotPresent
-          command: ['sh', '-c', 'ls; python --version; python /usr/src/app/run.py;']
+          command: ['sh', '-c', 'wget http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}; python /usr/src/app/run.py;']
           env:
             - name: TARGET_URL
               value: http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}
