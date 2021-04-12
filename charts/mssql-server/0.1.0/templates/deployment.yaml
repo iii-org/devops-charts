@@ -32,14 +32,12 @@ spec:
               containerPort: 1433
               protocol: TCP
           # 確認MSSQL是否存活
-          livenessProbe:
-            exec:
-              command:
-              - /opt/mssql-tools/bin/sqlcmd
-              - -S
-              - 127.0.0.1
-            initialDelaySeconds: 120
-            periodSeconds: 80
+          #livenessProbe:
+          #  exec:
+          #    command:
+          #    - /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1 -U sa -P ${SA_PASSWORD}
+          #  initialDelaySeconds: 120
+          #  periodSeconds: 80
           #  httpGet:
           #    path: /
           #    port: http
@@ -47,6 +45,14 @@ spec:
           #  httpGet:
           #    path: /
           #    port: http
+          startupProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1
+            failureThreshold: 60
+            periodSeconds: 5
           ## MSSQL 的安裝環境變數
           env:
           - name: ACCEPT_EULA
