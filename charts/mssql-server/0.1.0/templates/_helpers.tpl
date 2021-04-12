@@ -61,3 +61,11 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+## iiiorg chart label for iiiorg-api
+## used for iii-org-api to lock resource
+## warning: should label on namespace
+{{- define "iiidevops.labels" -}}
+iiidevops.org/project_name: {{ .Values.git.repoName }}
+iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | quote }}
+{{- end }}

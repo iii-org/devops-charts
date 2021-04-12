@@ -5,8 +5,25 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  registry: mcr.microsoft.com
+  repository: mssql/server
+  tag: 2019-CU10-ubuntu-20.04
+  ## Specify a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
   pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets (secrets must be manually created in the namespace)
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## Example:
+  ## pullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  pullSecrets: []
+  ## Set to true if you would like to see extra information on logs
+  ## It turns BASH and/or NAMI debugging in the image
+  ##
+  debug: false
 
 imagePullSecrets: []
 nameOverride: ""
@@ -36,10 +53,20 @@ securityContext: {}
 ## Custom Use for different service
 commonAnnotations: {}
 
+auth:
+  ## MSSQL sa password
+  ## A strong system administrator (SA) password: At least 8 characters including uppercase
+  ## lowercase letters, base-10 digits and/or non-alphanumeric symbols.
+  saPassword: ""
+## 
+ACCEPT_EULA: Y
+MSSQL_PID: Express
+
 service:
   type: ClusterIP
   port: 1433
 
+## At least 2GB of RAM (3.25 GB prior to 2017-CU2) Make sure to assign enough memory to the Docker VM if you're running on Docker for Mac or Windows.
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
