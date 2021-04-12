@@ -57,7 +57,7 @@ auth:
   ## MSSQL sa password
   ## A strong system administrator (SA) password: At least 8 characters including uppercase
   ## lowercase letters, base-10 digits and/or non-alphanumeric symbols.
-  saPassword: ""
+  saPassword: "MSPassword123"
 ## 
 ACCEPT_EULA: Y
 MSSQL_PID: Express
