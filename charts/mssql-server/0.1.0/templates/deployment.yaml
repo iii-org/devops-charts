@@ -50,7 +50,7 @@ spec:
           ## MSSQL 的安裝環境變數
           env:
           - name: ACCEPT_EULA
-            value: {{ .Values.ACCEPT_EULA }}
+            value: {{ .Values.ACCEPT_EULA | quote }}
           - name: SA_PASSWORD
             value: {{ .Values.auth.saPassword | quote }}
           - name: MSSQL_PID
