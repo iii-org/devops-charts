@@ -1,9 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mssql-server.fullname" . }}
+  name: {{ .Release.Name }}-dpy
   labels:
     {{- include "mssql-server.labels" . | nindent 4 }}
+    app: {{ .Release.Name }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+    iiidevops.org/type: db-server
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -61,6 +65,9 @@ spec:
             value: {{ .Values.auth.saPassword | quote }}
           - name: MSSQL_PID
             value: {{ .Values.MSSQL_PID }}
+          volumeMounts:
+            - mountPath: /bac
+              name: initdb  
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -75,3 +82,42 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      # 自動將資料庫所需匯入的表單匯入到資料庫
+      initContainers:
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
+          image: alpine/git
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              mkdir /tmp-project && cd /tmp-project;
+              export se="//";
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              git clone --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              mv db /initdb-data;
+              chmod -R 777 /initdb-data;
+          env:
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+          volumeMounts:
+            - mountPath: /initdb-data
+              name: initdb
+      volumes:
+        - name: initdb
+          emptyDir: {}

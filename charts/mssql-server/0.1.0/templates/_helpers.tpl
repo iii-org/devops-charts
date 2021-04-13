@@ -69,3 +69,11 @@ Create the name of the service account to use
 iiidevops.org/project_name: {{ .Values.git.repoName }}
 iiidevops.org/branch: {{ include "numericSafe" .Values.git.branch | quote }}
 {{- end }}
+
+{{- define "numericSafe" -}}
+{{- if . | toString | contains "e+" -}}
+{{ . | toString | replace "." "" | regexFind "^\\d+" }}
+{{- else -}}
+{{ . }}
+{{- end -}}
+{{- end -}}
