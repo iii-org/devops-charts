@@ -63,7 +63,7 @@ ACCEPT_EULA: Y
 MSSQL_PID: Express
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 1433
 
 ## At least 2GB of RAM (3.25 GB prior to 2017-CU2) Make sure to assign enough memory to the Docker VM if you're running on Docker for Mac or Windows.
