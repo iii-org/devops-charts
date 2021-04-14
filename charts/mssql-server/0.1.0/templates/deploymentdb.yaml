@@ -13,10 +13,12 @@ spec:
   selector:
     matchLabels:
       {{- include "mssql-server.selectorLabels" . | nindent 6 }}
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
         {{- include "mssql-server.selectorLabels" . | nindent 8 }}
+        app: {{ .Release.Name }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -67,7 +69,7 @@ spec:
             value: {{ .Values.MSSQL_PID }}
           volumeMounts:
             - mountPath: /bac
-              name: initdb  
+              name: initdb
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

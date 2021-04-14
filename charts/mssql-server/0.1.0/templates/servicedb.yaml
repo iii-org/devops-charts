@@ -4,6 +4,10 @@ metadata:
   name: {{ include "mssql-server.fullname" . }}
   labels:
     {{- include "mssql-server.labels" . | nindent 4 }}
+    app: {{ .Release.Name }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+    iiidevops.org/type: db-server
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -13,3 +17,4 @@ spec:
       name: mssql
   selector:
     {{- include "mssql-server.selectorLabels" . | nindent 4 }}
+    app: {{ .Release.Name }}
