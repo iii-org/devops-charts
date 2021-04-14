@@ -18,4 +18,4 @@ spec:
       containers:
       - name: import-dump-db
         image: "mcr.microsoft.com/mssql-tools"
-        command: ["sqlcmd","sqlcmd -S {{ .Release.Name }}-dpy -U sa -Q "BACKUP DATABASE [demodb] TO DISK = N'/var/opt/mssql/data/demodb.bak' WITH NOFORMAT, NOINIT, NAME = 'demodb-full', SKIP, NOREWIND, NOUNLOAD, STATS = 10"]
+        command: ["sqlcmd","-S {{ .Release.Name }}-dpy -U sa -Q "RESTORE DATABASE [demodb] FROM DISK = N'/var/opt/mssql/data/demodb.bak' WITH FILE = 1, NOUNLOAD, REPLACE, NORECOVERY, STATS = 5"]
