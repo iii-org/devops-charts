@@ -9,4 +9,4 @@ web:
   deployName: ""
   port: 80
 zap:
-  runnerVersion: 0.1.1-debug
+  runnerVersion: 0.1.3
