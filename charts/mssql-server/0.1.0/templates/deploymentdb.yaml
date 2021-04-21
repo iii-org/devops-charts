@@ -100,7 +100,8 @@ spec:
               mkdir /tmp-project && cd /tmp-project;
               export se="//";
               export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
-              git clone --branch ${git_branch} ${url} .;
+              git clone --branch ${git_branch} ${url} . || exit 1;
+              ls;
               rm -rf .git;
               mv db /initdb-data;
               chmod -R 777 /initdb-data;
