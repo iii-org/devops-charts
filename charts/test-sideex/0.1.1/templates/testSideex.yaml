@@ -16,7 +16,7 @@ spec:
         - name: test-sideex-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: iiiorg/sideex-runner:{{ .Values.sideex.runnerVersion }}
           imagePullPolicy: IfNotPresent
-          command: ['sh', '-c', 'cd /usr/app/src; node app.js']
+          command: ['sh', '-c', 'cd /usr/app/src; ls; node app.js']
           env:
             - name: target_origin
               value: http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}
