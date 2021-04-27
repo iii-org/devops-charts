@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: mssql-server
 description: Official images for Microsoft SQL Server on Linux for Docker Engine.
 
