@@ -7,8 +7,8 @@ metadata:
     {{- include "mssql-server.labels" . | nindent 4 }}
   annotations:
     #"helm.sh/hook": post-install, post-upgrade
-    # 這項匯入動作僅在第一次完成安裝資料庫後時進行，升級時不執行
-    "helm.sh/hook": post-install
+    # 這項匯入動作僅在第一次完成安裝資料庫後時進行，升級時不執行(但是因為目前iiidevops系統刪除的方式是錯的所以必須兩種都要) 因為無法刪除app
+    "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "30"
     # 在執行完成後工作先不要刪除保留工作(因此下面註解掉)
     #"helm.sh/hook-delete-policy": hook-succeeded
