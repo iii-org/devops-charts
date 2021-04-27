@@ -29,7 +29,7 @@ spec:
           ls -l
           mv *.sql import.sql
           [ -f import.sql ] && echo "Need Import sql"
-          [ -f import.sql ] && /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-mssql-server -U sa -P {{ .Values.auth.saPassword }} -i /bac/db/*.sql
+          [ -f import.sql ] && /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc -U sa -P {{ .Values.auth.saPassword }} -i /bac/db/*.sql
           echo "Fininsh to exit"
         volumeMounts:
           - mountPath: /bac
