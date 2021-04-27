@@ -1,0 +1,75 @@
+## 此步驟先偵測資料庫的svc是否正常(init)，然後再將bak的檔案匯入進去
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-import"
+  labels:
+    {{- include "mssql-server.labels" . | nindent 4 }}
+  annotations:
+    #"helm.sh/hook": post-install, post-upgrade
+    # 這項匯入動作僅在第一次完成安裝資料庫後時進行，升級時不執行
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "30"
+    # 在執行完成後工作先不要刪除保留工作(因此下面註解掉)
+    #"helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: import-dump-db
+        image: "mcr.microsoft.com/mssql-tools"
+        #command: ["/opt/mssql-tools/bin/ -S {{ .Release.Name }}-dpy -U sa -i /bac/db/*.sql"]
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "list imported data list"
+          cd /bac/db
+          ls -l
+          mv *.sql import.sql
+          [ -f import.sql ] && echo "Need Import sql"
+          [ -f import.sql ] && /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-mssql-server -U sa -P {{ .Values.auth.saPassword }} -i /bac/db/*.sql
+          echo "Fininsh to exit"
+        volumeMounts:
+          - mountPath: /bac
+            name: initdb
+      initContainers:
+      - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
+        image: alpine/git
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/sh
+          - -c
+        args:
+          - >-
+            mkdir /tmp-project && cd /tmp-project;
+            export se="//";
+            export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+            git clone --branch ${git_branch} ${url} . || exit 1;
+            ls;
+            rm -rf .git;
+            mv db /initdb-data;
+            chmod -R 777 /initdb-data;
+        env:
+          - name: git_url
+            value: {{ .Values.git.url }}
+          - name: git_branch
+            value: {{ include "numericSafe" .Values.git.branch | quote }}
+          - name: git_token
+            valueFrom:
+              secretKeyRef:
+                name: gitlab-bot
+                key: git-token
+          # nexus username = gitlab username of BOT to clone
+          - name: git_username
+            valueFrom:
+              secretKeyRef:
+                name: nexus-bot
+                key: username
+        volumeMounts:
+          - mountPath: /initdb-data
+            name: initdb
+      volumes:
+        - name: initdb
+          emptyDir: {}
