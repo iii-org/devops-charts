@@ -47,7 +47,9 @@ spec:
         command:
         - sh
         - -c
-        - sleep 25; until /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
+        - |
+          until nslookup {{ .Release.Name }}-svc; do echo waiting for mssql-server to start; sleep 10; done;
+          until /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
         env:
         - name: ACCEPT_EULA
           value: {{ .Values.ACCEPT_EULA | quote }}
