@@ -17,7 +17,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-      - name: import-dump-db
+      - name: "import-dump-db-{{ include "numericSafe" .Values.git.commitID }}"
         image: "mcr.microsoft.com/mssql-tools"
         #command: ["/opt/mssql-tools/bin/ -S {{ .Release.Name }}-dpy -U sa -i /bac/db/*.sql"]
         command:
@@ -41,7 +41,7 @@ spec:
       #  imagePullPolicy: IfNotPresent
       #  command: ['sh', '-c', "until nslookup {{ .Release.Name }}-svc; do echo waiting for mssql-server to start; sleep 10; done;"]
       # wait for DB login success
-      - name: "waiting-for-db2ready-login"
+      - name: "waiting-for-db2ready-login-{{ include "numericSafe" .Values.git.commitID }}"
         image: mcr.microsoft.com/mssql-tools
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', "until (/opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc -U sa -P ${SA_PASSWORD} -Q 'SELECT 1' || exit 1); do echo waiting for mssql-server to ready login; sleep 10; done;"]
