@@ -36,10 +36,10 @@ spec:
             name: initdb
       initContainers:
       # wait for DB deployment success
-      - name: "waiting-for-db2ready"
-        image: busybox
-        imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', "until nslookup {{ .Release.Name }}-svc; do echo waiting for mssql-server to start; sleep 10; done;"]
+      #- name: "waiting-for-db2ready"
+      #  image: busybox
+      #  imagePullPolicy: IfNotPresent
+      #  command: ['sh', '-c', "until nslookup {{ .Release.Name }}-svc; do echo waiting for mssql-server to start; sleep 10; done;"]
       # wait for DB login success
       - name: "waiting-for-db2ready-login"
         image: mcr.microsoft.com/mssql-tools
@@ -48,7 +48,7 @@ spec:
         - sh
         - -c
         - |
-          until nslookup {{ .Release.Name }}-svc; do echo waiting for mssql-server to start; sleep 10; done;
+          sleep 25
           until /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
         env:
         - name: ACCEPT_EULA
