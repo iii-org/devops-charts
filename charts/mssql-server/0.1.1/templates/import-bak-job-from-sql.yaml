@@ -37,14 +37,9 @@ spec:
       initContainers:
       # wait for DB deployment success
       - name: "waiting-for-db2ready"
-        image: mcr.microsoft.com/mssql-tools
+        image: busybox
         imagePullPolicy: IfNotPresent
-        command:
-          - /bin/sh
-          - -c
-        args:
-          - >-
-            sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1
+        command: ['sh', '-c', "until nslookup {{ .Release.Name }}-svc; do echo waiting for mssql-server to start; sleep 2; done;"]
       # Copy DB import file
       - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
         image: alpine/git
