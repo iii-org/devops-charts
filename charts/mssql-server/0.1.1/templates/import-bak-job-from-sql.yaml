@@ -36,7 +36,7 @@ spec:
             name: initdb
       initContainers:
       # wait for DB deployment success
-      - name: "waiting-for-db2Ready"
+      - name: "waiting-for-db2ready"
         image: mcr.microsoft.com/mssql-tools
         imagePullPolicy: IfNotPresent
         command:
