@@ -47,7 +47,7 @@ spec:
         command:
         - sh
         - -c
-        - until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
+        - until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1"; do echo waiting for mssql-server to ready login; sleep 10; done;
         env:
         - name: ACCEPT_EULA
           value: {{ .Values.ACCEPT_EULA | quote }}
