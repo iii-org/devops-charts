@@ -48,6 +48,13 @@ spec:
         - sh
         - -c
         - until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
+        env:
+        - name: ACCEPT_EULA
+          value: {{ .Values.ACCEPT_EULA | quote }}
+        - name: SA_PASSWORD
+          value: {{ .Values.auth.saPassword | quote }}
+        - name: MSSQL_PID
+          value: {{ .Values.MSSQL_PID }}
       # Copy DB import file
       - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
         image: alpine/git
