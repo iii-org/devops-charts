@@ -49,7 +49,7 @@ spec:
         - -c
         - |
           sleep 25
-          until /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
+          until /opt/mssql-tools/bin/sqlcmd -S {{ .Release.Name }}-svc.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc -U sa -P ${SA_PASSWORD} -Q "SELECT 1" || exit 1; do echo waiting for mssql-server to ready login; sleep 10; done;
         env:
         - name: ACCEPT_EULA
           value: {{ .Values.ACCEPT_EULA | quote }}
