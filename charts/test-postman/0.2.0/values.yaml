@@ -1,0 +1,12 @@
+git:
+  url: "http://gitlab.domain/project.git"
+  repoName: "project-name"
+  branch: "master"
+  commitID: "commit123"
+web:
+  deployName: name-branch-serv
+  port: 80
+pipeline:
+  sequence: 0
+newman:
+  runnerVersion: 3.0.0
