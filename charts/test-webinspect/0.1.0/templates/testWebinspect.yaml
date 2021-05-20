@@ -29,6 +29,8 @@ spec:
             # Indicates the tested commit
             - name: git_commit_id
               value: {{ include "numericSafe" .Values.git.commitID | quote }}
+            - name: pipeline_sequence
+              value: {{ .Values.pipeline.sequence }}
             - name: verbose
               value: "true"
             - name: wi_base_url
@@ -36,6 +38,24 @@ spec:
                 secretKeyRef:
                   name: webinspect
                   key: wi-base-url
+            - name: wi_type
+              valueFrom:
+                secretKeyRef:
+                  name: webinspect
+                  key: wi-type
+                  optional: true
+            - name: wi_username
+              valueFrom:
+                secretKeyRef:
+                  name: webinspect
+                  key: wi-username
+                  optional: true
+            - name: wi_password
+              valueFrom:
+                secretKeyRef:
+                  name: webinspect
+                  key: wi-password
+                  optional: true
             - name: api_origin
               valueFrom:
                 secretKeyRef:
