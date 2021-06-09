@@ -1,0 +1,3 @@
+{{ if Values.kube.ingress.base_domain nil }}
+# user wants to deploy ingress with default cert
+{{ end }}
