@@ -15,6 +15,7 @@ db:
   name: "bearDB"
 imagePullSecrets:
   - name: harbor-local
+# example: "10.20.0.20.nip.io"
 kube:
   ingress:
-    base_domain: "10.20.0.20.nip.io"
+    base_domain: ""
