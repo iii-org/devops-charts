@@ -9,7 +9,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
     {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   rules:
