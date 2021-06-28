@@ -51,12 +51,20 @@ spec:
         - name: clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: alpine/git
           imagePullPolicy: IfNotPresent
-          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} ${scheme}://${git_token}@${repo_path} .; rm -rf .git; ls; chmod -R 777 /init-data']
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /init-data;
+              export se="//";
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              git clone --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              chmod -R 777 .;
           env:
-            - name: scheme
-              value: {{ get (.Values.git.url | urlParse) "scheme" | quote }}
-            - name: repo_after_slash
-              value: {{ include "extractAfterSlash" .Values.git.url | quote }}
+            - name: git_url
+              value: {{ .Values.git.url }}
             - name: git_branch
               value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
@@ -64,6 +72,12 @@ spec:
                 secretKeyRef:
                   name: gitlab-bot
                   key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
           volumeMounts:
             - mountPath: /init-data
               name: initrepo
