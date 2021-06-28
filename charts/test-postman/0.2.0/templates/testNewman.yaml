@@ -54,9 +54,9 @@ spec:
           command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} ${scheme}://${git_token}@${repo_path} .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
             - name: scheme
-              value: {{ get (.Value.git.url | urlParse) "scheme" }}
+              value: {{ get (.Values.git.url | urlParse) "scheme" }}
             - name: repo_path
-              value: {{ get (.Value.git.url | urlParse) "path" }}
+              value: {{ get (.Values.git.url | urlParse) "path" }}
             - name: git_branch
               value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
