@@ -12,3 +12,11 @@ iiidevops.org/type: test-postman
 {{ . | toString }}
 {{- end -}}
 {{- end -}}
+
+{{- define "extractAfterSlash" -}}
+{{- if . | hasPrefix "https://" -}}
+{{ . | substr 8 (len .) }}
+{{- else -}}
+{{ . | substr 7 (len .) }}
+{{- end -}}
+{{- end -}}
