@@ -51,15 +51,12 @@ spec:
         - name: clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: alpine/git
           imagePullPolicy: IfNotPresent
-          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} http://root:${git_token}@${git_host}/root/${git_repo}.git .; rm -rf .git; ls; chmod -R 777 /init-data']
+          command: ['sh', '-c', 'cd /init-data; git clone --branch ${git_branch} ${scheme}://${git_token}@${repo_path} .; rm -rf .git; ls; chmod -R 777 /init-data']
           env:
-            - name: git_host
-              valueFrom:
-                secretKeyRef:
-                  name: gitlab
-                  key: git-host
-            - name: git_repo
-              value: {{ .Values.git.repoName }}
+            - name: scheme
+              value: {{ get (.Value.git.url | urlParse) "scheme" }}
+            - name: repo_path
+              value: {{ get (.Value.git.url | urlParse) "path" }}
             - name: git_branch
               value: {{ include "numericSafe" .Values.git.branch | quote }}
             - name: git_token
