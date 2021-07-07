@@ -1,0 +1,26 @@
+USER-SUPPLIED VALUES:
+git:
+  branch: master
+  commitID: 1089f5b
+  repoName: v0705-asp-net-example1
+  url: http://gitlab-dev3.iiidevops.org/root/v0705-asp-net-example1.git
+global:
+  clusterName: local
+  projectName: p-lp229
+harbor:
+  host: harbor-dev3.iiidevops.org
+kube:
+  ingress:
+    base_domain: ingress-dev3.iiidevops.org
+pipeline:
+  sequence: 1
+web:
+  imageTag: v0705-asp-net-example1/master:latest
+  port: 80
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
