@@ -8,4 +8,4 @@ web:
 pipeline:
   sequence: 0
 webinspect:
-  runnerVersion: 2.0.0
+  runnerVersion: 3.0.0
