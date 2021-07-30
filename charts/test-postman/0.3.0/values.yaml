@@ -9,4 +9,4 @@ web:
 pipeline:
   sequence: 0
 newman:
-  runnerVersion: 4.0.0
+  runnerVersion: 4.0.1
