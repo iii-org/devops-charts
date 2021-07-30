@@ -22,7 +22,7 @@ spec:
           args:
             - >-
               /usr/bin/setup.sh;
-              if [ $? > 0 ]; then
+              if [ $? -gt 0 ]; then
                 echo 'Sonarqube plugin is disabled.'
                 exit 0
               fi;
