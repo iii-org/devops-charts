@@ -9,4 +9,4 @@ web:
   deployName: ""
   port: 80
 sideex:
-  runnerVersion: 1.0.0
+  runnerVersion: 1.0.1
