@@ -16,8 +16,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              echo 'GitLab Param:'; env | grep GITLAB_ 
-              echo 'GitHub Param:'; env | grep GITHUB_
+              echo 'GitLab Param:'; env | grep GITLAB_;
+              echo 'GitHub Param:'; env | grep GITHUB_;
               cat /script/github2gitlab.sh
             env:
             - name: GITLAB_URL
