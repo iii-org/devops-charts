@@ -56,3 +56,4 @@ data:
     done
 
     echo '===== 暴力強制推上 =====';
+    git push --prune --force gitlab +refs/heads/*:refs/heads/* +refs/heads/pull/*:refs/heads/pull/* +refs/tags/*:refs/tags/*;
