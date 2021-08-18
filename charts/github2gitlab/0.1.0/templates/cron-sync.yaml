@@ -18,7 +18,9 @@ spec:
             - |
               echo 'GitLab Param:'; env | grep GITLAB_;
               echo 'GitHub Param:'; env | grep GITHUB_;
-              cat /script/github2gitlab.sh
+              cat /script/github2gitlab.sh;
+              chmod +x /script/github2gitlab.sh;
+              /script/github2gitlab.sh $GITLAB_URL $GITLAB_TOKEN $GITLAB_REPO $GITHUB_TOKEN $GITHUB_REPO;
             env:
             - name: GITLAB_URL
               value: {{ .Values.gitlab.url }}
