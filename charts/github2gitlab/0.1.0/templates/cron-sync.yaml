@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: sync
-            image: busybox
+            image: ubuntu:20.04
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
@@ -21,7 +21,7 @@ spec:
               cat /script/github2gitlab.sh;
               cp /script/github2gitlab.sh /tmp/github2gitlab.sh
               chmod +x /tmp/github2gitlab.sh;
-              sh /tmp/github2gitlab.sh $GITLAB_URL $GITLAB_TOKEN $GITLAB_REPO $GITHUB_TOKEN $GITHUB_REPO;
+              /tmp/github2gitlab.sh $GITLAB_URL $GITLAB_TOKEN $GITLAB_REPO $GITHUB_TOKEN $GITHUB_REPO;
             env:
             - name: GITLAB_URL
               value: {{ .Values.gitlab.url }}
