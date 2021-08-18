@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: sync
-            image: alpine/git
+            image: alpine/git:v2.24.1
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
