@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-sync-github2gitlab
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sync
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - echo 'GitLab Param:'; env | grep GITLAB_
+            - echo 'GitHub Param:'; env | grep GITHUB_
+            - cat /script/github2gitlab.sh
+            env:
+            - name: GITLAB_URL
+              value: {{ .Values.gitlab.url }}
+            - name: GITLAB_TOKEN
+              value: {{ .Values.gitlab.token }}
+            - name: GITLAB_REPO
+              value: {{ .Values.gitlab.repo }}
+            - name: GITHUB_TOKEN
+              value: {{ .Values.github.token }}
+            - name: GITHUB_REPO
+              value: {{ .Values.github.repo }}
+            volumeMounts:
+            - name: script-vol
+              mountPath: "/script"
+              readOnly: false
+          volumes:
+          - name: script-vol
+            configMap:
+              name: script
+              items:
+              - key: "github2gitlab.sh"
+                path: "github2gitlab.sh"
+          restartPolicy: OnFailure

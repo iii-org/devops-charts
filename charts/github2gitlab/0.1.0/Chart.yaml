@@ -1,0 +1,3 @@
+name: github2gitlab
+version: v0.1.0
+description: "Sync GitHub to GitLab"

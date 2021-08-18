@@ -1,0 +1,7 @@
+gitlab:
+  url: "gitlab-url"
+  token: "gitlab-token" 
+  repo: "gitlab-repo"
+github:
+  token: "github-token"
+  repo: "github-repo"
