@@ -49,7 +49,7 @@ data:
     git branch --all;
 
     echo '===== 檢查全部的branch並送出 =====';
-    for branch in $(git branch --all | grep '^\s*remotes/gitlab' | grep --invert-match '(:?HEAD|master)$'); do
+    for branch in $(git branch --all | grep '^\s*remotes/gitlab' | egrep --invert-match '(:?HEAD|master)$'); do
         echo '切換到'$branch;
         #git branch --track "${branch##*/}" "$branch"
         #git push --prune --force gitlab --force;
