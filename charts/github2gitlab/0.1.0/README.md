@@ -14,3 +14,4 @@ helm3 lint ./charts/github2gitlab/0.1.0 -f ./test/test-iso3-github2gitlab.yaml
 * [cron-jobs](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/)
 * [configmap](https://kubernetes.io/docs/concepts/configuration/configmap/)
 * [values](https://helm.sh/docs/chart_best_practices/values/)
+* [helm-lint-info-chart-yaml-icon-is-recommended](https://stackoverflow.com/questions/51557965/helm-lint-info-chart-yaml-icon-is-recommended)
