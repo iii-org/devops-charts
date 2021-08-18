@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: sync
-            image: ubuntu:20.04
+            image: alpine/git
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
