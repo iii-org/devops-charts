@@ -7,6 +7,7 @@
 ## 測試指令
 helm3 lint ./charts/github2gitlab/0.1.0 -f ./test/test-iso3-github2gitlab.yaml
 helm3 install --dry-run --debug ./charts/github2gitlab/0.1.0 -f ./test/test-iso3-github2gitlab.yaml  --generate-name
+helm3 upgrade --install --debug test20210818 ./charts/github2gitlab/0.1.0 -f ./test/test-iso3-github2gitlab.yaml
 
 ## Reference
 * [configure-pod-configmap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)
