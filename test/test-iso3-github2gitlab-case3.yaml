@@ -6,4 +6,5 @@ gitlab:
 github:
   token: "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"
   repo: "corilin/datatoolbox"
-sync.minute: 8
+sync:
+  minute: 8

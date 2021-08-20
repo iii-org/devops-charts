@@ -1,19 +1,16 @@
+{{ $corn := default .Values.cron }}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-cron-sync
 spec:
-# 如果使用者有設定指定的cron值，則使用其設定的cronjob值
-{{- if eq .Values.cron "" -}}
+{{- if ne .Values.cron "" }}
+  # 如果使用者有設定指定的cron值，則使用其設定的cronjob值
   schedule: "{{ .Values.cron }}"
-# 如果使用者沒有設定指定的cron值，則使用其設定的每X分鐘
-{{- else if .Values.sync.minute < 60 -}}
-  # At every Xth minute.
-  schedule: "*/{{ .Values.sync.minute }} * * * *"
-{{- else -}}
-  # At minute 0.
-  schedule: "0 * * * *"
-{{- end -}}
+  # 如果使用者沒有設定指定的cron值，則使用其設定的每X分鐘 At every Xth minute
+{{- else }}
+  schedule: "*/{{- mod .Values.sync.minute 60}} * * * *"
+{{- end }}
   jobTemplate:
     spec:
       template:

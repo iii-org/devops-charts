@@ -5,6 +5,7 @@ gitlab:
 github:
   token: "github-token"
   repo: "github-repo"
-sync.minute: 0
+sync:
+  minute: 60
 cron: ""
 #cron: "*/5 * * * *"
