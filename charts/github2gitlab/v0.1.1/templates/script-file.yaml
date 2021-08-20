@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: script
+data:
+  github2gitlab.sh: |
+    #!/bin/bash
+
+    echo '-----> gitlab-url:' $1;
+    echo '-----> gitlab-token:' $2;
+    echo '-----> gitlab-repo:' $3;
+    echo '-----> github-token:' $4;
+    echo '-----> github-repo': $5;
+
+    echo '===== 尋找並進入資料夾名稱 ======';
+    GIT_FOLDER=${5##*/}
+    echo "${5##*/}"
+
+    mkdir -p sync-github2gitlab-shell;
+
+    echo '===== 檢測是否本地儲存空間具有GitHub專案資料 =====';
+
+    GIT_FOLDER=${5##*/}
+    if [ -d $5 ]; then
+      echo '===== 已有Clone過專案，轉而進行PULL =====';
+      cd $5;
+    else
+      echo '===== 無Clone過專案，進行Clone =====';
+      echo 'git clone --bare' 'https://'$4'@github.com/'$5;
+      git clone --bare 'https://'$4'@github.com/'$5 $5;
+      cd $5;
+    fi
+
+    echo '===== Debug: clone的資料夾內容 =====';
+    ls -l -a;
+    echo '===== 擷取專案全部資料 =====';
+    git fetch --force origin +refs/heads/*:refs/heads/* +refs/tags/*:refs/tags/*;
+    #git reset --hard origin/HEAD;
+
+    echo '===== 設定Remote至GitLab Repo =====';
+    echo $1/$3 | sed 's/gitlab-/'"oauth2:$2@"'&/';
+    GITLAB_PROJECT_URL=$(echo $1/$3 | sed 's/gitlab-/'"oauth2:$2@"'&/');
+    echo $GITLAB_PROJECT_URL;
+    git remote add gitlab -mirror=fetch $GITLAB_PROJECT_URL;
+
+    echo '===== Debug: 顯示全部的remote清單與branch =====';
+    git remote -v;
+    git branch --all;
+
+    echo '===== 檢查全部的branch並送出 =====';
+    for branch in $(git branch --all | grep '^\s*remotes/gitlab' | egrep --invert-match '(:?HEAD|master)$'); do
+        echo '切換到'$branch;
+        #git branch --track "${branch##*/}" "$branch"
+        #git push --prune --force gitlab --force;
+    done
+
+    echo '===== 暴力強制推上 =====';
+    git push --prune --force gitlab +refs/heads/*:refs/heads/* +refs/heads/pull/*:refs/heads/pull/* +refs/tags/*:refs/tags/*;

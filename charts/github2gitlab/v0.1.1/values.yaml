@@ -1,0 +1,10 @@
+gitlab:
+  url: "gitlab-url"
+  token: "gitlab-token" 
+  repo: "gitlab-repo"
+github:
+  token: "github-token"
+  repo: "github-repo"
+sync.minute: 0
+cron: ""
+#cron: "*/5 * * * *"

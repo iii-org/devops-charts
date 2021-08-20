@@ -1,3 +1,4 @@
+## 精簡部屬測試-測試僅輸入每分鐘數值(正常值60內)
 gitlab:
   url: "http://gitlab-iso3.iiidevops.org"
   token: "nQ51ATrfcvzEVtSJA122" 
@@ -5,3 +6,4 @@ gitlab:
 github:
   token: "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"
   repo: "corilin/datatoolbox"
+sync.minute: 8

@@ -1,0 +1,9 @@
+## 精簡部屬測試-測試客製化cron值
+gitlab:
+  url: "http://gitlab-iso3.iiidevops.org"
+  token: "nQ51ATrfcvzEVtSJA122" 
+  repo: "root/github-mirror"
+github:
+  token: "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"
+  repo: "corilin/datatoolbox"
+cron: "*/5 * * * *"
