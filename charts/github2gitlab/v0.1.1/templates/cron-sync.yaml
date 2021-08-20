@@ -9,7 +9,7 @@ spec:
   schedule: "{{ .Values.cron }}"
   # 如果使用者沒有設定指定的cron值，則使用其設定的每X分鐘 At every Xth minute
 {{- else }}
-  schedule: "*/{{- mod .Values.sync.minute 60}} * * * *"
+  schedule: "*/{{- mod .Values.sync.minute 61}} * * * *"
 {{- end }}
   jobTemplate:
     spec:
