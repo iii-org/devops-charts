@@ -26,7 +26,7 @@ questions:
   type: string
   required: true
   default: "http://gitlab-iso3.iiidevops.org"
-  group: "同步目的地的GitLab專案設定"
+  group: "同步目的地GitLab專案設定"
 - variable: gitlab.token
   label: 私有Gitlab存取Token
   description: "請輸入存取GitLab專案所需的Token"
