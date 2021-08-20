@@ -1,0 +1,43 @@
+rancher_max_version: 2.5.1
+rancher_min_version: 2.4.5
+categories:
+  - Blog
+  - CMS
+questions:
+## about github
+- variable: github.token
+  label: 公開GitHub存取Token
+  description: "請輸入存取GitHub專案所需的Token"
+  type: string
+  required: true
+  default: "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"
+  group: "同步來源GitHub專案設定"
+- variable: github.repo
+  label: 公開GitHub內的專案名稱
+  description: "請輸入同步來源的GitLab專案名稱(包含namespace)"
+  type: string
+  required: true
+  default: "corilin/datatoolbox"
+  group: "同步來源GitHub專案設定"
+## about gitlab
+- variable: gitlab.url
+  label: 私有GitLabn所HOST的URL
+  description: "請輸入GitLab專案的URL ex:http://gitlab-iso3.iiidevops.org"
+  type: string
+  required: true
+  default: "http://gitlab-iso3.iiidevops.org"
+  group: "同步目的地的GitLab專案設定"
+- variable: gitlab.token
+  label: 私有Gitlab存取Token
+  description: "請輸入存取GitLab專案所需的Token"
+  type: string
+  required: true
+  default: "nQ51ATrfcvzEVtSJA122"
+  group: "同步目的地GitLab專案設定"
+- variable: gitlab.repo
+  label: 私有Gitlab內的專案名稱
+  description: "請輸入要被同步到的GitLab專案名稱(包含namespace)"
+  type: string
+  required: true
+  default: "root/github-mirror"
+  group: "同步目的地GitLab專案設定"
