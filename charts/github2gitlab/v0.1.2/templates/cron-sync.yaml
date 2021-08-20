@@ -1,0 +1,55 @@
+{{ $corn := default .Values.cron }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-cron-sync
+spec:
+{{- if ne .Values.cron "" }}
+  # 如果使用者有設定指定的cron值，則使用其設定的cronjob值
+  schedule: "{{ .Values.cron }}"
+  # 如果使用者沒有設定指定的cron值，則使用其設定的每X分鐘 At every Xth minute
+{{- else }}
+  schedule: "*/{{- mod .Values.sync.minute 61}} * * * *"
+{{- end }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sync
+            image: alpine/git:v2.24.1
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo 'GitLab Param:'; env | grep GITLAB_;
+              echo 'GitHub Param:'; env | grep GITHUB_;
+              cat /script/github2gitlab.sh;
+              cp /script/github2gitlab.sh /tmp/github2gitlab.sh;
+              apk add grep;
+              chmod +x /tmp/github2gitlab.sh;
+              sh /tmp/github2gitlab.sh $GITLAB_URL $GITLAB_TOKEN $GITLAB_REPO $GITHUB_TOKEN $GITHUB_REPO;
+            env:
+            - name: GITLAB_URL
+              value: {{ .Values.gitlab.url }}
+            - name: GITLAB_TOKEN
+              value: {{ .Values.gitlab.token }}
+            - name: GITLAB_REPO
+              value: {{ .Values.gitlab.repo }}
+            - name: GITHUB_TOKEN
+              value: {{ .Values.github.token }}
+            - name: GITHUB_REPO
+              value: {{ .Values.github.repo }}
+            volumeMounts:
+            - name: script-vol
+              mountPath: "/script"
+              readOnly: false
+          volumes:
+          - name: script-vol
+            configMap:
+              name: script
+              items:
+              - key: "github2gitlab.sh"
+                path: "github2gitlab.sh"
+          restartPolicy: OnFailure
