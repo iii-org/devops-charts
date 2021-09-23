@@ -1,0 +1,22 @@
+gitlab:
+  url: "gitlab-url"
+  token: "gitlab-token" 
+  repo: "gitlab-repo"
+github:
+  token: "github-token"
+  repo: "github-repo"
+sync:
+  minute: 60
+cron: ""
+#cron: "*/5 * * * *"
+
+## 可指定使用者自己的Image來源
+image:
+  registry: docker.io
+  repository: alpine/git
+  tag: v2.24.1
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+## 可指定紀錄(資源)的存活時間time to live設計
+#ttlSecondsAfterFinished: null
