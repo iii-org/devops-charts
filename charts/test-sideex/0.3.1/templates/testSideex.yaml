@@ -5,9 +5,12 @@ metadata:
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
+<<<<<<< HEAD
   {{- if not (kindIs "invalid" .Values.ttlSecondsAfterFinished) }}
   ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
   {{- end }}
+=======
+>>>>>>> 24bb93c3322e48a193313f10826a7f6deec8211b
   template:
     metadata:
       name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
