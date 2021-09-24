@@ -5,7 +5,9 @@ metadata:
   annotations:
     {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
-  ttlSecondsAfterFinished: 0
+  {{- if not (kindIs "invalid" .Values.ttlSecondsAfterFinished) }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  {{- end }}
   template:
     metadata:
       name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
@@ -14,8 +16,8 @@ spec:
     spec:
       containers:
         - name: test-sideex-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
-          image: {{ .Values.image.registry }}:{{ .Values.sideex.runnerVersion }}
-          imagePullPolicy: IfNotPresent
+          image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.sideex.runnerVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', 'node app.js']
           env:
             - name: target_origin
