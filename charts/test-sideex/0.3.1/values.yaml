@@ -9,7 +9,7 @@ web:
   deployName: ""
   port: 80
 sideex:
-  runnerVersion: v1.2.0
+  runnerVersion: 1.2.0
 image:
   registry: docker.io
   repository: iiiorg/sideex-runner
