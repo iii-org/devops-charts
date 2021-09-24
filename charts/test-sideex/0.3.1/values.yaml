@@ -9,6 +9,6 @@ web:
   deployName: ""
   port: 80
 sideex:
-  runnerVersion: dev4
+  runnerVersion: v1.2.0
 image:
   registry: iiiorg/sideex-runner
