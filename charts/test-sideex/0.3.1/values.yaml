@@ -9,16 +9,10 @@ web:
   deployName: ""
   port: 80
 sideex:
-<<<<<<< HEAD
-  runnerVersion: v1.1.0
-#可指定紀錄(資源)的存活時間time to live設計
-=======
   runnerVersion: v1.2.0
->>>>>>> 24bb93c3322e48a193313f10826a7f6deec8211b
 image:
   registry: docker.io
   repository: iiiorg/sideex-runner
-  tag: v2.24.1
   pullPolicy: IfNotPresent
   pullSecrets: []
 # 可指定紀錄(資源)的存活時間time to live設計
