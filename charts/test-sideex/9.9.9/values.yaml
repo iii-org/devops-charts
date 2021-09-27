@@ -15,5 +15,7 @@ image:
   repository: iiiorg/sideex-runner
   pullPolicy: IfNotPresent
   pullSecrets: []
+timezone:
+  tz: Asia/Taipei
 # 可指定紀錄(資源)的存活時間time to live設計
 ttlSecondsAfterFinished: null

@@ -9,6 +9,13 @@ web:
   deployName: ""
   port: 80
 sideex:
-  runnerVersion: v1.1.0
+  runnerVersion: 1.2.0
 image:
-  registry: iiiorg/sideex-runner
+  registry: docker.io
+  repository: iiiorg/sideex-runner
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+timezone:
+  tz: Asia/Taipei
+# 可指定紀錄(資源)的存活時間time to live設計
+ttlSecondsAfterFinished: null
