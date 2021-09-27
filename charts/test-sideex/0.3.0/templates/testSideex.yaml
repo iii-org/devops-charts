@@ -57,7 +57,7 @@ spec:
               name: initrepo
       initContainers:
         - name: clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
-          image: {{ .Values.harbor.host }}/alpine/git          
+          image: {{ .Values.harbor.host }}/dockerhub/alpine/git          
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /bin/sh
