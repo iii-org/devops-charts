@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: test-sideex-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
-          image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.sideex.runnerVersion }}
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.sideex.runnerVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', 'node app.js']
           env:

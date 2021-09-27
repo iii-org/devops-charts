@@ -10,10 +10,11 @@ web:
   port: 80
 sideex:
   runnerVersion: 1.2.0
+harbor:
+  host: harbor-dev.iiidevops.org
 image:
-  registry: docker.io
-  repository: iiiorg/sideex-runner
-  pullPolicy: IfNotPresent
+  repository: dockerhub/iiiorg/sideex-runner
+  pullPolicy: Always
   pullSecrets: []
 timezone:
   tz: Asia/Taipei
