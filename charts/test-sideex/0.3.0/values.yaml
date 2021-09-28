@@ -10,13 +10,5 @@ web:
   port: 80
 sideex:
   runnerVersion: 1.2.0
-harbor:
-  host: harbor-dev.iiidevops.org
 image:
-  repository: dockerhub/iiiorg/sideex-runner
-  pullPolicy: Always
-  pullSecrets: []
-timezone:
-  tz: Asia/Taipei
-# 可指定紀錄(資源)的存活時間time to live設計
-ttlSecondsAfterFinished: null
+  registry: iiiorg/sideex-runner
