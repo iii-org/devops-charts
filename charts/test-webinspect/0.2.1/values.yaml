@@ -1,0 +1,21 @@
+git:
+  url: "http://gitlab.domain/project.git"
+  repoName: "project-name"
+  branch: "master"
+  commitID: "commit123"
+web:
+  deployName: name-branch-serv
+pipeline:
+  sequence: 0
+webinspect:
+  runnerVersion: 4.0.0
+harbor:
+  host: harbor-dev.iiidevops.org
+image:
+  repository: dockerhub/iiiorg/webinspect-runner
+  pullPolicy: Always
+  pullSecrets: []
+timezone:
+  tz: Asia/Taipei
+# 可指定紀錄(資源)的存活時間time to live設計
+ttlSecondsAfterFinished: null
