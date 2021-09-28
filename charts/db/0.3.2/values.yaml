@@ -1,5 +1,5 @@
-image:
-  registry: docker.io 
+harbor:
+  host: docker.io
 
 git:
   repoName: "projectName"
@@ -26,7 +26,8 @@ service:
 
 ingress:
   enabled: false
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:

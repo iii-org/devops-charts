@@ -27,11 +27,11 @@ spec:
           imagePullPolicy: IfNotPresent
         # 按照使用者要求的資料庫去配置對應的網頁管理鏡像，基本上除了mongodb獨特，其他都可以用adminer
         {{- if eq .Values.db.type "mariadb" }}
-          image: "{{ .Values.image.registry }}/bitnami/phpmyadmin"
+          image: "{{ .Values.habor.host }}/bitnami/phpmyadmin"
         {{- else if eq .Values.db.type "mongodb" }}
-          image: "{{ .Values.image.registry }}/library/mongo-express"
+          image: "{{ .Values.habor.host }}/library/mongo-express"
         {{- else }}
-          image: "{{ .Values.image.registry }}/library/adminer"
+          image: "{{ .Values.habor.host }}/library/adminer"
         {{- end }}
           ports:
             - name: dbgui
