@@ -16,10 +16,8 @@ spec:
     spec:
       containers:
         - name: test-zap-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
-          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.sideex.runnerVersion }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          image: iiiorg/zap-runner:{{ .Values.zap.runnerVersion }}
-          imagePullPolicy: IfNotPresent
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.zap.runnerVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}          
           command: ['sh', '-c', 'python -u /usr/src/app/run.py;']
           env:
             - name: TARGET_URL
