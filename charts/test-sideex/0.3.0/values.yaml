@@ -10,5 +10,7 @@ web:
   port: 80
 sideex:
   runnerVersion: 1.2.0
+timezone:
+  tz: Asia/Taipei
 image:
   registry: iiiorg/sideex-runner
