@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: newman-runner-{{ .Values.pipeline.sequence }}
-          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.sideex.runnerVersion }}
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.newman.runnerVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', 'cd /usr/src/app; node app.js;']
           env:
