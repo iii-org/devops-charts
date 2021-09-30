@@ -4,7 +4,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - develop
+      - main
 jobs:
   release:
     # 在ubuntu的執行環境來執行下列工作
