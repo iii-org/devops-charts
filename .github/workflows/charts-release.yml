@@ -44,10 +44,10 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.0.0
         with:
-          #version: 'v1.0.0' #Optional
+          version: 'v1.0.0' #Optional
           charts_dir: 'charts' #Optional
           #charts_repo_url: 'https://<owner>.github.io/<project>' #Optional
-          no_index: false #Optional
+          #no_index: false #Optional
           scan: true #Optional
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
