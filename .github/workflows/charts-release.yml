@@ -1,0 +1,33 @@
+# 釋出Chart版本
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  release:
+    # 在ubuntu的執行環境來執行下列工作
+    runs-on: ubuntu-latest
+    # 步驟流程
+    steps:
+      # 取得專案原始碼
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # 設定git使用者  
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      # 在環境內安裝Helm指令用於後續打包
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.4.0
+      # 進行Chart的版本釋出
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.2.1
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
