@@ -39,5 +39,5 @@ jobs:
         with:
           charts_dir: ./charts/devops-cronjob
         #  charts_repo_url: https://iii-org.github.io/devops-charts
-        #env:
-        #  CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
