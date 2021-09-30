@@ -38,6 +38,6 @@ jobs:
         uses: helm/chart-releaser-action@v1.2.1
         with:
           charts_dir: ./charts/devops-cronjob
-          charts_repo_url: https://iii-org.github.io/devops-charts
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        #  charts_repo_url: https://iii-org.github.io/devops-charts
+        #env:
+        #  CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
