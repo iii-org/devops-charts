@@ -45,7 +45,7 @@ jobs:
         uses: web-seven/chart-releaser-action@v2.0.10
         with:
           #version: 'v1.0.0' #Optional
-          charts_dir: 'charts' #Optional
+          charts_dir: '/charts' #Optional
           #charts_repo_url: 'https://<owner>.github.io/<project>' #Optional
           no_index: false #Optional
           scan: true #Optional
