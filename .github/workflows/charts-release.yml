@@ -27,13 +27,13 @@ jobs:
         with:
           version: v3.4.0
       # 進行Chart的版本釋出
-      #- name: Run chart-releaser For DB
-      #  uses: helm/chart-releaser-action@v1.2.1
-      #  with:
-      #    charts_dir: ./charts/db
-      #    charts_repo_url: https://iii-org.github.io/devops-charts
-      #  env:
-      #    CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Run chart-releaser For DB
+        uses: helm/chart-releaser-action@v1.2.1
+        with:
+          charts_dir: charts/db
+          charts_repo_url: https://iii-org.github.io/devops-charts/charts/db
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       #- name: Run chart-releaser For devops-cronjob
       #  uses: helm/chart-releaser-action@v1.2.1
       #  with:
