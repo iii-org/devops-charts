@@ -65,7 +65,7 @@ spec:
         - name: default-data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-%s" .Release.Name default-pvc) }}
+            claimName: {{ .Values.persistence.existingClaim | default ( print .Release.Name "-default-pvc" ) }}
           {{- else }}
           emptyDir: {}
           {{- end }}
