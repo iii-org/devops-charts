@@ -1,0 +1,23 @@
+harbor:
+  host: "harbor.domain"
+git:
+  url: "http://gitlab.domain/project.git"
+  branch: "master"
+  commitID: "abc12345"
+  repoName: "project-name"
+web:
+  port: 80
+  imageTag: "project/branch:version"
+db:
+  releaseName: "project-branch-serv"
+  username: "bear"
+  password: "bearbearbear"
+  name: "bearDB"
+imagePullSecrets:
+  - name: harbor-local
+# example: "10.20.0.20.nip.io"
+kube:
+  ingress:
+    base_domain: ""
+# 資源使用
+resources: {}
