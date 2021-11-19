@@ -1,0 +1,10 @@
+git: 
+  url: "http://gitlab-dev3.iiidevops.org/root/t1118-web-vol-enable.git"
+  epoName: "t1118-web-vol-enable"
+  branch: "master"
+  ommitID: "4837707"
+web: 
+  port: "3000"
+persistence:
+  enabled: false
+  mountPath: /opt/near
