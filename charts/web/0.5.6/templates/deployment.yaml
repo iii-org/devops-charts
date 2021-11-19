@@ -56,9 +56,9 @@ spec:
               name: "extra-env-secret"
               optional: true
           volumeMounts:
-            {{- if .Values.extraVolumeMounts }}
-            {{- dict "value" .Values.extraVolumeMounts "context" $ | nindent 12 }}
-            {{- end }}
+            # {{- if .Values.extraVolumeMounts }}
+            # {{- dict "value" .Values.extraVolumeMounts "context" $ | nindent 12 }}
+            # {{- end }}
             - name: default-data
               mountPath: {{ .Values.persistence.mountPath }}
       volumes:
