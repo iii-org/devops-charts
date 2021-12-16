@@ -4,10 +4,10 @@ git:
   branch: "master"
   commitID: "abc1234"
 pipeline:
-  sequence: "0"
+  sequence: 0
 cmas:
   url: "https://61.216.83.38:8443"
-  key: "00000000000000000000000000000000"
+  key: 00000000000000000000000000000000
   a_mode: "24"
   a_report_type: "2"
   a_ert: "90" 
