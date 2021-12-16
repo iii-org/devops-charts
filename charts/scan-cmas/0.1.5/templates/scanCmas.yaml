@@ -22,11 +22,11 @@ spec:
             - name: authKey
               value: "{{ .Values.cmas.key }}"
             - name: a_mode
-              value: {{ .Values.cmas.a_mode }}
+              value: "{{ .Values.cmas.a_mode }}"
             - name: a_report_type
-              value: {{ .Values.cmas.a_report_type }}
+              value: "{{ .Values.cmas.a_report_type }}"
             - name: a_ert
-              value: {{ .Values.cmas.a_ert }}
+              value: "{{ .Values.cmas.a_ert }}"
             - name: git_url
               value: {{ .Values.git.url }}
             - name: git_branch
