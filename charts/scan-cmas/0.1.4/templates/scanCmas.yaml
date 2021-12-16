@@ -20,7 +20,7 @@ spec:
             - name: cm_url
               value: {{ .Values.cmas.url }}
             - name: authKey
-              value: {{ .Values.cmas.key }}
+              value: "{{ .Values.cmas.key }}"
             - name: a_mode
               value: {{ .Values.cmas.a_mode }}
             - name: a_report_type
