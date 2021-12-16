@@ -2,14 +2,10 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
-  annotations:
-    {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:
   template:
     metadata:
       name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
-      annotations:
-        {{- include "iiidevops.annotations" . | nindent 8 }}
     spec:
       containers:
         - name: cmas-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
