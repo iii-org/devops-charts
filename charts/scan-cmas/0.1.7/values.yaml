@@ -1,0 +1,15 @@
+git:
+  url: "http://gitlab.your.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+cmas:
+  a_mode: "24"
+  a_ert: "90" 
+  runnerVersion: 2.1.1
+api:
+  url: "http://10.20.0.98:31850"
+  username: "sysadmin"
+  password: "IIIdevops123!"
