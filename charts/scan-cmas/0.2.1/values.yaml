@@ -8,8 +8,10 @@ pipeline:
 cmas:
   a_mode: "24"
   a_ert: "90" 
-  runnerVersion: 2.1.1
-api:
-  url: "http://10.20.0.98:31850"
-  username: "sysadmin"
-  password: "IIIdevops123!"
+  runnerVersion: latest
+harbor:
+  host: harbor-dev3.iiidevops.org
+image:
+  repository: cmas-runner/master
+  pullPolicy: Always
+  pullSecrets: []

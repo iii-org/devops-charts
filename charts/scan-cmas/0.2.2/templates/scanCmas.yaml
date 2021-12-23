@@ -13,8 +13,8 @@ spec:
     spec:
       containers:
         - name: cmas-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
-          image: iiiorg/cmas-runner:{{ .Values.cmas.runnerVersion }}
-          imagePullPolicy: IfNotPresent
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.cmas.runnerVersion }}
+          imagePullPolicy: Always
           command: ['sh', '-c', 'cd /cmas; python3 main.py;']
           env:
             - name: a_mode
