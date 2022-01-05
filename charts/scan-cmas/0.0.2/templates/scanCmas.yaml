@@ -13,10 +13,14 @@ spec:
     spec:
       containers:
         - name: cmas-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
-          image: iiiorg/cmas-runner:{{ .Values.cmas.runnerVersion }}
-          imagePullPolicy: IfNotPresent
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.cmas.runnerVersion }}
+          imagePullPolicy: Always
           command: ['sh', '-c', 'cd /cmas; python3 main.py;']
           env:
+            - name: repo_name
+              value: "{{ .Values.git.repoName }}"
+            - name: sequence
+              value: "{{ .Values.pipeline.sequence }}"
             - name: a_mode
               value: "{{ .Values.cmas.a_mode }}"
             - name: a_ert
@@ -56,9 +60,11 @@ spec:
             - -c
           args:
             - >-
+              pwd;
               cd /init-data;
               export se="//";
               export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              echo url;
               git clone --branch ${git_branch} ${url} .;
               rm -rf .git;
               chmod -R 777 .;
@@ -86,4 +92,4 @@ spec:
         - name: initrepo
           emptyDir: {}
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 1
