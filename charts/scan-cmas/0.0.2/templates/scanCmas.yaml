@@ -14,7 +14,7 @@ spec:
       containers:
         - name: cmas-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
           image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.cmas.runnerVersion }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command: ['sh', '-c', 'cd /cmas; python3 main.py;']
           env:
             - name: repo_name
