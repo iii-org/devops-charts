@@ -8,11 +8,10 @@ pipeline:
 harbor:
   host: harbor-dev.iiidevops.org
 image:
-  repository: dockerhub/iiiorg/sideex-runner
-  pullPolicy: Always
+  repository: dockerhub/iiiorg/cmas-runner
   pullSecrets: []
 cmas:
   a_mode: "24"
   a_ert: "90" 
-  runnerVersion: latest
+  runnerVersion: 0.0.2
 
