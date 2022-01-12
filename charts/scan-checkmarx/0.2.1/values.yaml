@@ -1,18 +1,18 @@
 git:
-  url: "http://gitlab.your.domain/project.git"
+  url: "http://gitlab.domain/project.git"
   repoName: "project"
   branch: "master"
   commitID: "abc1234"
 pipeline:
   sequence: 0
-checkmarx:
-  runnerVersion: 3.0.0
 harbor:
-  host: harbor-dev.iiidevops.org
+  host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/checkmarx-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   pullSecrets: []
+checkmarx:
+  runnerVersion: 3.0.0
 timezone:
   tz: Asia/Taipei
 # 可指定紀錄(資源)的存活時間time to live設計
