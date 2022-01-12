@@ -8,12 +8,15 @@ web:
   port: 80
 pipeline:
   sequence: 0
-newman:
-  runnerVersion: 4.0.1
+
 harbor:
-  host: harbor-dev.iiidevops.org
+  host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/newman-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   pullSecrets: []
+newman:
+  runnerVersion: 4.0.1
+timezone:
+  tz: Asia/Taipei
 ttlSecondsAfterFinished: null

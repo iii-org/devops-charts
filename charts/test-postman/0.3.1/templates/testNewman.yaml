@@ -46,6 +46,8 @@ spec:
                 secretKeyRef:
                   name: nexus-bot
                   key: password
+            - name: TZ
+              value: {{ .Values.timezone.tz }}
           volumeMounts:
             - mountPath: /usr/src/app/repo
               name: initrepo
