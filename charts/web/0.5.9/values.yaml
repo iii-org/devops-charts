@@ -1,5 +1,5 @@
 harbor:
-  host: "harbor.domain"
+  host: "localhost:32443"
 git:
   url: "http://gitlab.domain/project.git"
   branch: "master"
