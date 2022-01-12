@@ -8,10 +8,10 @@ pipeline:
 sonarqube:
   runnerVersion: 1.0.1
 harbor:
-  host: harbor-dev.iiidevops.org
+  host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/sideex-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   pullSecrets: []
 timezone:
   tz: Asia/Taipei
