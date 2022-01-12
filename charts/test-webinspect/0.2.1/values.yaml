@@ -12,7 +12,7 @@ harbor:
   host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/webinspect-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   pullSecrets: []
 webinspect:
   runnerVersion: 4.0.0
