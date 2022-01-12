@@ -7,14 +7,15 @@ web:
   deployName: name-branch-serv
 pipeline:
   sequence: 0
-webinspect:
-  runnerVersion: 4.0.0
+
 harbor:
-  host: harbor-dev.iiidevops.org
+  host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/webinspect-runner
   pullPolicy: Always
   pullSecrets: []
+webinspect:
+  runnerVersion: 4.0.0
 timezone:
   tz: Asia/Taipei
 # 可指定紀錄(資源)的存活時間time to live設計
