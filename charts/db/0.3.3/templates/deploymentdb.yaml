@@ -25,13 +25,13 @@ spec:
         - name: {{ .Values.db.type }}
           imagePullPolicy: IfNotPresent
         {{- if eq .Values.db.type "mysql" }}
-          image: "{{ .Values.harbor.host }}/bitnami/mysql:{{ .Values.db.tag }}"
+          image: "{{ .Values.harbor.host }}/dockerhub/bitnami/mysql:{{ .Values.db.tag }}"
         {{- else if eq .Values.db.type "mariadb" }}
-          image: "{{ .Values.harbor.host }}/bitnami/mariadb:{{ .Values.db.tag }}"
+          image: "{{ .Values.harbor.host }}/dockerhub/bitnami/mariadb:{{ .Values.db.tag }}"
         {{- else if eq .Values.db.type "postgresql" }}
-          image: "{{ .Values.harbor.host }}/bitnami/postgresql:{{ .Values.db.tag }}"
+          image: "{{ .Values.harbor.host }}/dockerhub/bitnami/postgresql:{{ .Values.db.tag }}"
         {{- else if eq .Values.db.type "mongodb" }}
-          image: "{{ .Values.harbor.host }}/bitnami/mongodb:{{ .Values.db.tag }}"
+          image: "{{ .Values.harbor.host }}/dockerhub/bitnami/mongodb:{{ .Values.db.tag }}"
         {{- end }}
           ports:
             - name: db
@@ -113,7 +113,7 @@ spec:
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
         - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
-          image: {{ .Values.harbor.host }}/alpine/git
+          image: {{ .Values.harbor.host }}/dockerhub/alpine/git
           imagePullPolicy: IfNotPresent
           command:
             - /bin/sh
