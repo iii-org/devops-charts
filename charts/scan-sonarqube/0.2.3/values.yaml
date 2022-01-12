@@ -10,7 +10,7 @@ sonarqube:
 harbor:
   host: "localhost:32443"
 image:
-  repository: dockerhub/iiiorg/sideex-runner
+  repository: dockerhub/iiiorg/sonarqube-runner
   pullPolicy: IfNotPresent
   pullSecrets: []
 timezone:
