@@ -15,7 +15,7 @@ rancher:
 
 # 要存取鏡像的來源
 harbor:
-  host: "localhost:3224"
+  host: "localhost:32443"
 
 replicaCount: 1
 
