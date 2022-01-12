@@ -1,5 +1,5 @@
 harbor:
-  host: docker.io
+  host: "localhost:32443"
 
 git:
   repoName: "projectName"
