@@ -13,7 +13,7 @@ harbor:
   host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/zap-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   pullSecrets: []
 zap:
   runnerVersion: 1.0.0

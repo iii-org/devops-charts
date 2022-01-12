@@ -11,10 +11,10 @@ web:
 sideex:
   runnerVersion: 1.2.0
 harbor:
-  host: harbor-dev.iiidevops.org
+  host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/sideex-runner
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   pullSecrets: []
 timezone:
   tz: Asia/Taipei
