@@ -8,14 +8,15 @@ pipeline:
 web:
   deployName: ""
   port: 80
-zap:
-  runnerVersion: 1.0.0
+
 harbor:
-  host: harbor-dev.iiidevops.org
+  host: "localhost:32443"
 image:
   repository: dockerhub/iiiorg/zap-runner
   pullPolicy: Always
   pullSecrets: []
+zap:
+  runnerVersion: 1.0.0
 timezone:
   tz: Asia/Taipei
 # 可指定紀錄(資源)的存活時間time to live設計
