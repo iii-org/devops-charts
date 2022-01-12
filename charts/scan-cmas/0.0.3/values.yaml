@@ -1,0 +1,17 @@
+git:
+  url: "http://gitlab.your.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+harbor:
+  host: harbor-dev.iiidevops.org
+image:
+  repository: dockerhub/iiiorg/cmas-runner
+  pullSecrets: []
+cmas:
+  a_mode: "24"
+  a_ert: "90" 
+  runnerVersion: 0.0.3
+
