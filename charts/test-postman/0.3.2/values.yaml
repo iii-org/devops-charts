@@ -16,7 +16,7 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 newman:
-  runnerVersion: 4.0.2
+  runnerVersion: 4.0.4
 timezone:
   tz: Asia/Taipei
 ttlSecondsAfterFinished: null
