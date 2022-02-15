@@ -1,0 +1,96 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+spec:
+  {{- if not (kindIs "invalid" .Values.ttlSecondsAfterFinished) }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  {{- end }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
+    spec:
+      containers:
+        - name: test-sideex-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.sideex.runnerVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['sh', '-c', 'node app.js']
+          env:
+            - name: target_origin
+              value: http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}
+            # Project name
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+            - name: project_name
+              value: {{ .Values.git.repoName }}
+            # Git info for nexus
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: git_commit_id
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
+            - name: verbose
+              value: "true"            
+            #  Add Timezione
+            - name: TZ
+              value: {{ .Values.timezone.tz }}
+          volumeMounts:
+            - mountPath: /usr/src/app/repo
+              name: initrepo
+      initContainers:
+        - name: clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          image: {{ .Values.harbor.host }}/dockerhub/alpine/git          
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /init-data;
+              export se="//";
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              git clone --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              chmod -R 777 .;
+          env:
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      volumes:
+        - name: initrepo
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: 4
