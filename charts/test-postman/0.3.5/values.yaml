@@ -1,0 +1,22 @@
+git:
+  url: "http://gitlab.domain/project.git"
+  repoName: "project-name"
+  branch: "master"
+  commitID: "commit123"
+web:
+  deployName: name-branch-serv
+  port: 80
+pipeline:
+  sequence: 0
+
+harbor:
+  host: "localhost:32443"
+image:
+  repository: dockerhub/iiiorg/newman-runner
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+newman:
+  runnerVersion: 4.0.4
+timezone:
+  tz: Asia/Taipei
+ttlSecondsAfterFinished: null
