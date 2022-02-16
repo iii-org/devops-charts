@@ -16,7 +16,7 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 zap:
-  runnerVersion: 1.1.0
+  runnerVersion: 1.0.1
 timezone:
   tz: Asia/Taipei
 # 可指定紀錄(資源)的存活時間time to live設計
