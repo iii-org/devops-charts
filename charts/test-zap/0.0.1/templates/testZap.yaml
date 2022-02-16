@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+spec:
+  {{- if not (kindIs "invalid" .Values.ttlSecondsAfterFinished) }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  {{- end }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
+    spec:
+      containers:
+        - name: test-zap-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.zap.runnerVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}          
+          command: ['sh', '-c', 'python -u /usr/src/app/run.py;']
+          env:
+            - name: TARGET_URL
+              value: http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}
+            # Project name
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+            - name: PROJECT_NAME
+              value: {{ .Values.git.repoName }}
+            # Git info for nexus
+            - name: GIT_BRANCH
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: GIT_COMMIT_ID
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
+            #  Add Timezione
+            - name: TZ
+              value: {{ .Values.timezone.tz }}
+          volumeMounts:
+            - mountPath: /zap/wrk
+              name: zap-wrk
+          resources:
+            requests:
+              memory: "4096Mi"
+              cpu: "2000m"
+            limits:
+              memory: "4096Mi"
+              cpu: "3000m"
+      volumes:
+        - name: zap-wrk
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: 4
