@@ -1,0 +1,19 @@
+git:
+  url: "http://gitlab.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+harbor:
+  host: "localhost:32443"
+image:
+  repository: dockerhub/iiiorg/checkmarx-runner
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+checkmarx:
+  runnerVersion: 3.0.2
+timezone:
+  tz: Asia/Taipei
+# 可指定紀錄(資源)的存活時間time to live設計
+ttlSecondsAfterFinished: null
