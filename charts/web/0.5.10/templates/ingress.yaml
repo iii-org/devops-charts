@@ -10,8 +10,8 @@ metadata:
     app: {{ .Release.Name }}
   annotations:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    {{ if .Values.kube.ingress.prxoy_body_size }}
-    nginx.ingress.kubernetes.io/proxy-body-size: "{{ .Values.kube.ingress.prxoy_body_size}}"
+    {{ if .Values.kube.ingress.proxy_body_size }}
+    nginx.ingress.kubernetes.io/proxy-body-size: "{{ .Values.kube.ingress.proxy_body_size}}"
     {{end}}
     {{- include "iiidevops.annotations" . | nindent 4 }}
 spec:

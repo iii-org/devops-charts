@@ -19,7 +19,7 @@ imagePullSecrets:
 kube:
   ingress:
     base_domain: ""
-    prxoy_body_size: ""
+    proxy_body_size: ""
 # 資源使用
 resources: {}
 
