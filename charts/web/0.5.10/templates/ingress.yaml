@@ -1,0 +1,25 @@
+{{ if .Values.kube.ingress.base_domain }}
+# user wants to deploy ingress with default cert
+# if user has provide kube.ingress.base_domain then if will generate
+# this file for k8s to apply
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ing
+  labels:
+    app: {{ .Release.Name }}
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/proxy-body-size: "{{ .Values.kube.ingress.prxoy_body_size}}"
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+spec:
+  rules:
+  - host: "{{ .Values.git.repoName }}-{{ .Values.git.branch }}.{{ .Values.kube.ingress.base_domain }}"
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-svc
+          servicePort: {{ .Values.web.port }} 
+        path: "/"
+        pathType: "ImplementationSpecific"
+{{ end }}

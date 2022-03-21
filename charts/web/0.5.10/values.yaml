@@ -1,0 +1,61 @@
+harbor:
+  host: "localhost:32443"
+git:
+  url: "http://gitlab.domain/project.git"
+  branch: "master"
+  commitID: "abc12345"
+  repoName: "project-name"
+web:
+  port: 80
+  imageTag: "project/branch:version"
+db:
+  releaseName: "project-branch-serv"
+  username: "bear"
+  password: "bearbearbear"
+  name: "bearDB"
+imagePullSecrets:
+  - name: harbor-local
+# example: "10.20.0.20.nip.io"
+kube:
+  ingress:
+    base_domain: ""
+    prxoy_body_size: "20m"
+# 資源使用
+resources: {}
+
+## @section Persistence Parameters
+
+## Persistence Parameters
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  ## @param persistence.enabled Enable persistence using Persistent Volume Claims
+  ##
+  enabled: false
+  ## @param persistence.storageClass Persistent Volume storage class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner
+  ##
+  storageClass: iiidevops-nfs-storage
+  ## @param persistence.accessModes [array] Persistent Volume access modes
+  ##
+  accessModes:
+    - ReadWriteMany
+  ## @param persistence.size Persistent Volume size
+  ##
+  size: 1Gi
+  ## @param persistence.dataSource Custom PVC data source
+  ##
+  dataSource: {}
+  ## @param persistence.existingClaim The name of an existing PVC to use for persistence
+  ##
+  existingClaim: ""
+
+  ## 額外覆蓋預設掛載設定
+  mountPath: "/opt/nfs"
+
+## Rancher BUG
+## Failed to install app t1118-web-vol-enable-master-serv. Error: error while running post render on files: 
+## error while running command /kustomize.sh. error output: Error: <nil> is expected to be either a string or a []interface{} : exit status 1
+# extraVolumeMounts: {}
