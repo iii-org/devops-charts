@@ -118,10 +118,9 @@ spec:
               moutPath: /bitnami/postgresql
               {{- else if eq .Values.db.type "mongodb" }}
               moutPath:  /bitnami/mongodb
-              {{- end }}
+            {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-            
+            {{- toYaml .Values.resources | nindent 12 }}            
       # 自動將資料庫所需匯入的表單匯入到資料庫
       initContainers:
         - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}"
