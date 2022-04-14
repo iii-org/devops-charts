@@ -104,22 +104,22 @@ spec:
         {{- end }}
           volumeMounts:
           # MongoDB掛載會自動將全部東西匯入(導致異常, 目前版本尚未確認)
-            {{- if not (eq .Values.db.type "mongodb") }}
+          {{- if not (eq .Values.db.type "mongodb") }}
             - name: initdb
               mountPath: /docker-entrypoint-initdb.d            
-            {{- end }}
-            {{- if .Values.volumeMounts.enabled}}            
+          {{- end }}
+          {{- if .Values.volumeMounts.enabled}}            
             - name : default-data
-              {{- if eq .Values.db.type "mysql"}}              
+            {{- if eq .Values.db.type "mysql"}}              
               moutPath: /bitnami/mysql
-              {{- else if eq .Values.db.type "mariadb" }}
+            {{- else if eq .Values.db.type "mariadb" }}
               moutPath: /bitnami/mariadb
-              {{- else if eq .Values.db.type "postgresql" }}
+            {{- else if eq .Values.db.type "postgresql" }}
               moutPath: /bitnami/postgresql
-              {{- else if eq .Values.db.type "mongodb" }}
+            {{- else if eq .Values.db.type "mongodb" }}
               moutPath:  /bitnami/mongodb
-              {{- end }}
             {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}            
       # 自動將資料庫所需匯入的表單匯入到資料庫
