@@ -118,6 +118,7 @@ spec:
               moutPath: /bitnami/postgresql
               {{- else if eq .Values.db.type "mongodb" }}
               moutPath:  /bitnami/mongodb
+              {{- end }}
             {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}            
