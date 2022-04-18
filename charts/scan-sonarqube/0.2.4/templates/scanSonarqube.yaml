@@ -30,7 +30,7 @@ spec:
           args:
             {{- if or (.Values.gradle.enabled) (.Values.maven.enabled) }}
             - >-
-              cd /usr/src/app;
+              cd /usr/src;
               ./SonarScan;
             {{- else  }}
             - >-
