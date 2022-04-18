@@ -20,6 +20,8 @@ spec:
           image: {{ .Values.harbor.host }}/{{ .Values.gradle.image }}:{{ .Values.gradle.tag }}
           {{- else if .Values.maven.enabled}}
           image: {{ .Values.harbor.host }}/{{ .Values.maven.image }}:{{ .Values.maven.tag }}
+          {{- else if .Values.asp_dot_net.enabled}}
+          image: {{ .Values.asp_dot_net.image }}:{{ .Values.asp_dot_net.tag }}
           {{- else  }}
           image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.sonarqube.runnerVersion }}
           {{- end }}
@@ -28,7 +30,7 @@ spec:
             - /bin/sh
             - -c
           args:
-            {{- if or (.Values.gradle.enabled) (.Values.maven.enabled) }}
+            {{- if or (.Values.gradle.enabled) (.Values.maven.enabled) (.Values.asp_dot_net.enabled) }}
             - >-
               cd /usr/src;
               ./SonarScan;

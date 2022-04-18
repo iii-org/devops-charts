@@ -25,4 +25,8 @@ gradle:
 maven:
   enabled: false
   image: "dockerhub/library/maven"
-  tag: "3.6.3-openjdk-11"  
+  tag: "3.6.3-openjdk-11" 
+asp_dot_net:
+  enabled: false
+  image: "mcr.microsoft.com/dotnet/sdk"
+  tag: "3.1-focal"
