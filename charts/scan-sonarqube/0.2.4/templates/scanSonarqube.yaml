@@ -33,7 +33,7 @@ spec:
             {{- if or (.Values.gradle.enabled) (.Values.maven.enabled) (.Values.asp_dot_net.enabled) }}
             - >-
               cd /usr/src;
-              ./SonarScan;
+              ./iiidevops/sonarqube/SonarScan;
             {{- else  }}
             - >-
               /usr/bin/setup.sh;
