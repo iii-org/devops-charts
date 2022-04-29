@@ -1,0 +1,25 @@
+git:
+  url: "http://gitlab.your.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+web:
+  deployName: ""
+  port: 80
+
+harbor:
+  host: "localhost:32443"
+image:
+  repository: dockerhub/iiiorg/zap-runner
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+zap:
+  scanApi: false
+  runnerVersion: 1.0.2
+timezone:
+  tz: Asia/Taipei
+# 可指定紀錄(資源)的存活時間time to live設計
+ttlSecondsAfterFinished: null
+backoffLimit: 3
