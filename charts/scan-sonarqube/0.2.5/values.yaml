@@ -1,0 +1,37 @@
+git:
+  url: "http://gitlab.your.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+sonarqube:
+  runnerVersion: 1.0.1
+harbor:
+  host: "localhost:32443"
+image:
+  repository: dockerhub/iiiorg/sonarqube-runner
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+timezone:
+  tz: Asia/Taipei
+db:
+  releaseName: "project-branch-serv"
+  username: "bear"
+  password: "bearbearbear"
+  name: "bearDB"
+# 可指定紀錄(資源)的存活時間time to live設計
+ttlSecondsAfterFinished: null
+
+gradle:
+  enabled: false
+  image: "dockerhub/library/gradle"
+  tag: "jdk11"
+maven:
+  enabled: false
+  image: "dockerhub/library/maven"
+  tag: "3.6.3-openjdk-11" 
+asp_dot_net:
+  enabled: false
+  image: "mcr.microsoft.com/dotnet/sdk"
+  tag: "3.1-focal"
