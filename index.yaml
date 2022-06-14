@@ -1,14 +1,16 @@
 apiVersion: v1
 entries:
-  test-sideex:
+  db:
   - apiVersion: v1
     appVersion: 0.1.0
-    created: "2021-09-24T16:36:50.879584535+08:00"
-    description: Use Sideex to do UI test
-    digest: 58812b1bff891b495a32967bb24bdc4f98e30f61aba3f3cd5b2391e8eb5ee856
-    name: test-sideex
+    created: "2022-06-14T07:30:46.741373296Z"
+    description: simple web service for mysql mariadb postgresql, any db, but only
+      support in iiiorg
+    digest: dfde596b186ab061f98266f32d6f19bf44f2d7ed22977da551235ad37ad51ed3
+    icon: https://avatars0.githubusercontent.com/u/60456920?s=200&v=4
+    name: db
     type: application
     urls:
-    - test-sideex-0.3.1.tgz
-    version: 0.3.1
-generated: "2021-09-24T16:36:50.877648861+08:00"
+    - https://github.com/iii-org/devops-charts/releases/download/db-0.3.5/db-0.3.5.tgz
+    version: 0.3.5
+generated: "2022-06-14T07:30:46.741381496Z"
