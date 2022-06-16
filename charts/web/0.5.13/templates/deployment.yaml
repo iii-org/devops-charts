@@ -57,7 +57,7 @@ spec:
               optional: true
           volumeMounts:
             - name: default-data
-              {{- if .Values.volumeMounts.enabled}}
+              {{- if or (.Values.volumeMounts.hostPath.enabled) (.Values.volumeMounts.nfs.enabled)}}
               mountPath: {{ .Values.volumeMounts.mountPath }}
               {{- else }}    
               mountPath: {{ .Values.persistence.mountPath }}
@@ -69,7 +69,7 @@ spec:
             claimName: {{ .Values.persistence.existingClaim | default ( print .Release.Name "-default-pvc" ) }}
           {{- else if .Values.volumeMounts.hostPath.enabled}}
           hostPath:
-            path : "/project-data/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
+            path : "{{ .Values.volumeMounts.hostPath.path}}/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
           {{- else if .Values.volumeMounts.nfs.enabled}}
           nfs:
             server: {{ .Values.volumeMounts.nfs.server}}

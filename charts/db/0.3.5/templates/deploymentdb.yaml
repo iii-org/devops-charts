@@ -165,10 +165,10 @@ spec:
         {{- if .Values.volumeMounts.hostPath.enabled}}
         - name: default-data
           hostPath:
-            path : "/project-data/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
+            path : "{{ .Values.volumeMounts.hostPath.path}}/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
         {{- else if .Values.volumeMounts.nfs.enabled}}
         - name: default-data
           nfs:
             server: {{ .Values.volumeMounts.nfs.server}}
-            path : "/{{ .Values.volumeMounts.mountPath}}/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
+            path : "/{{ .Values.volumeMounts.nfs.path}}/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
         {{- end }}

@@ -58,14 +58,11 @@ persistence:
 volumeMounts:
   hostPath:
     enabled: false
+    path: '/project-data'
   nfs:
     enabled: false
     server: localhost
+    path: '/project-data'
   project : 'default'
   uuid : 'project-uuid'
   mountPath: '/project-data'
-
-## Rancher BUG
-## Failed to install app t1118-web-vol-enable-master-serv. Error: error while running post render on files: 
-## error while running command /kustomize.sh. error output: Error: <nil> is expected to be either a string or a []interface{} : exit status 1
-# extraVolumeMounts: {}
