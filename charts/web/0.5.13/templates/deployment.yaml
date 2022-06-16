@@ -73,7 +73,7 @@ spec:
           {{- else if .Values.volumeMounts.nfs.enabled}}
           nfs:
             server: {{ .Values.volumeMounts.nfs.server}}
-            path : "/{{ .Values.volumeMounts.mountPath}}/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
+            path : "/{{ .Values.volumeMounts.nfs.path}}/{{ .Values.volumeMounts.project}}/{{ .Values.volumeMounts.uuid}}"
           {{- else  }}
           emptyDir: {}
           {{- end }}
