@@ -71,6 +71,6 @@ volumeMounts:
   nfs:
     enabled: false
     server: localhost
-    path: '/project-data'
+    path: '/iiidevopsNFS/devops-data/project-data'
   project : 'default'
   uuid : 'project-uuid'
