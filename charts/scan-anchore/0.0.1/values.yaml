@@ -1,0 +1,16 @@
+git:
+  url: "http://gitlab.your.domain/project.git"
+  repoName: "project"
+  branch: "master"
+  commitID: "abc1234"
+pipeline:
+  sequence: 0
+harbor:
+  host: harbor-dev.iiidevops.org
+image:
+  repository: dockerhub/iiiorg/anchore-runner
+  pullPolicy: Always
+  pullSecrets: []
+anchore:
+  runnerVersion: 0.0.1
+  image: ""
