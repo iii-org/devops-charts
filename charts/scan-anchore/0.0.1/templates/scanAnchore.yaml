@@ -16,6 +16,9 @@ spec:
           image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.anchore.runnerVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['/startup.sh','{{ .Values.harbor.host }}/{{ .Values.anchore.image }}']
+          volumeMounts:
+            - mountPath: "/grype-db"
+              name: anchore-data
           env:
             - name: git_url
               value: {{ .Values.git.url }}
@@ -41,4 +44,8 @@ spec:
                   name: nexus-bot
                   key: password
       restartPolicy: Never
+      volumes:
+      - name: anchore-data
+        persistentVolumeClaim:
+          claimName: anchore-pvc
   backoffLimit: 1
