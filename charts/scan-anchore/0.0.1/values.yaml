@@ -8,9 +8,9 @@ pipeline:
 harbor:
   host: harbor-dev.iiidevops.org
 image:
-  repository: dockerhub/iiiorg/anchore-runner
+  repository: library/anchore-runner
   pullPolicy: Always
   pullSecrets: []
 anchore:
-  runnerVersion: 0.0.1
+  runnerVersion: 0.1.0
   image: ""
