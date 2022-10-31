@@ -1,0 +1,131 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+spec:
+  {{- if not (kindIs "invalid" .Values.ttlSecondsAfterFinished) }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  {{- end }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
+    spec:
+      containers:
+        - name: sonarqube-scan-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          {{- if .Values.gradle.enabled }}
+          image: {{ .Values.harbor.host }}/{{ .Values.gradle.image }}:{{ .Values.gradle.tag }}
+          {{- else if .Values.maven.enabled}}
+          image: {{ .Values.harbor.host }}/{{ .Values.maven.image }}:{{ .Values.maven.tag }}
+          {{- else if .Values.asp_dot_net.enabled}}
+          image: {{ .Values.asp_dot_net.image }}:{{ .Values.asp_dot_net.tag }}
+          {{- else  }}
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.sonarqube.runnerVersion }}
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /usr/src;
+              ./iiidevops/sonarqube/SonarScan;
+          env:
+            # Sonarqube's URL
+            - name: SONAR_HOST_URL
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube
+                  key: sonar-url
+            # Auth token of sonarqube's bot
+            - name: SONAR_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: sonar-bot
+                  key: sonar-token
+            # Project name
+            - name: PROJECT_NAME
+              value: {{ .Values.git.repoName }}
+            # Git info for nexus
+            - name: GIT_BRANCH
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: GIT_COMMIT_ID
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
+            # Origin of the API server
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            # Database Parameter
+            - name: db_host
+              value: {{ .Values.db.releaseName }}-svc
+            - name: db_name
+              value: {{ .Values.db.name }}
+            - name: db_username
+              value: {{ .Values.db.username }}
+            - name: db_password
+              value: {{ .Values.db.password }}
+            # username of the API server
+            - name: api_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            # password of the API server
+            - name: api_password
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+            - name: TZ
+              value: {{ .Values.timezone.tz }}
+          volumeMounts:
+            - mountPath: /usr/src
+              name: initrepo
+      # clone git repo and mount the code
+      initContainers:
+        - name: "clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}"
+          image: {{ .Values.harbor.host }}/dockerhub/alpine/git          
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /init-data;
+              export se="//";
+              echo ${git_url};
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              echo ${url};
+              git clone --recursive --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              chmod -R 777 /init-data;
+          env:
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      # 暫時專案資料儲存區
+      volumes:
+        - name: initrepo
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: 4
