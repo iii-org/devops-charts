@@ -22,10 +22,10 @@ ttlSecondsAfterFinished: null
 type: nomal
 gradle:
   image: "dockerhub/iiiorg/sonarqube-runner"
-  tag: "gradle-jdk11-1.0.2"
+  tag: "gradle-jdk11-1.1.0"
 maven:
   image: "dockerhub/iiiorg/sonarqube-runner"
-  tag: "maven-3.6.3-openjdk-11-1.0.2" 
+  tag: "maven-3.6.3-openjdk-11-1.1.0" 
 asp_dot_net:
   image: "dockerhub/iiiorg/sonarqube-runner"
-  tag: "dotnet-sdk-3.1-focal-1.0.2"
+  tag: "dotnet-sdk-3.1-focal-1.1.0"
