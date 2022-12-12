@@ -7,7 +7,7 @@ pipeline:
   sequence: 0
 sonarqube:
   runnerVersion: 1.1.0
-  env: "false"
+  env: false
 harbor:
   host: "localhost:32443"
 image:
