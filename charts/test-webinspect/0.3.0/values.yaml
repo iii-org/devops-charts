@@ -1,0 +1,20 @@
+git:
+  url: "http://gitlab.domain/project.git"
+  repoName: "project-name"
+  branch: "master"
+  commitID: "commit123"
+web:
+  deployName: name-branch-serv
+  port: 80
+harbor:
+  host: "localhost:32443"
+image:
+  repository: dockerhub/iiiorg/webinspect-runner
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+webinspect:
+  runnerVersion: 5.0.0
+timezone:
+  tz: Asia/Taipei
+# 可指定紀錄(資源)的存活時間time to live設計
+ttlSecondsAfterFinished: null
