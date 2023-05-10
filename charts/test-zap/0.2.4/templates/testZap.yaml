@@ -1,0 +1,109 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+  annotations:
+    {{- include "iiidevops.annotations" . | nindent 4 }}
+spec:
+  {{- if not (kindIs "invalid" .Values.ttlSecondsAfterFinished) }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+  {{- end }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-{{ .Values.pipeline.sequence }}
+      annotations:
+        {{- include "iiidevops.annotations" . | nindent 8 }}
+    spec:
+      containers:
+        - name: test-zap-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          image: {{ .Values.harbor.host }}/{{ .Values.image.repository }}:{{ .Values.zap.runnerVersion}}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}          
+          command: ['sh', '-c', 'python -u /usr/src/app/run.py;']
+          env:
+            - name: TARGET_URL
+              {{- if .Values.web.url }}
+              value: {{ .Values.web.deployName }}
+              {{- else }}
+              value: http://{{ .Values.web.deployName }}-svc:{{ .Values.web.port }}
+              {{- end }}
+            - name: SCAN_API
+              value: {{ quote .Values.zap.scanApi }}
+            # Project name
+            - name: api_origin
+              valueFrom:
+                secretKeyRef:
+                  name: nexus
+                  key: api-origin
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: password
+            - name: PROJECT_NAME
+              value: {{ .Values.git.repoName }}
+            # Git info for nexus
+            - name: GIT_BRANCH
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: GIT_COMMIT_ID
+              value: {{ include "numericSafe" .Values.git.commitID | quote }}
+            #  Add Timezione
+            - name: TZ
+              value: {{ .Values.timezone.tz }}
+          volumeMounts:
+            - mountPath: /zap/wrk
+              name: zap-wrk
+            - mountPath: /usr/src/app/repo
+              name: initrepo
+          resources:
+            requests:
+              memory: "4096Mi"
+              cpu: "2000m"
+            limits:
+              memory: "4096Mi"
+              cpu: "3000m"    
+      initContainers:
+        - name: clone-repo-{{ .Values.git.repoName }}-{{ include "numericSafe" .Values.git.branch }}-{{ include "numericSafe" .Values.git.commitID }}-{{ .Values.pipeline.sequence }}
+          image: {{ .Values.harbor.host }}/dockerhub/alpine/git          
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - >-
+              cd /init-data;
+              export se="//";
+              export url="${git_url/$se*/$se}${git_username}:${git_token}@${git_url/*$se}";
+              git clone --branch ${git_branch} ${url} .;
+              rm -rf .git;
+              chmod -R 777 .;
+          env:
+            - name: git_url
+              value: {{ .Values.git.url }}
+            - name: git_branch
+              value: {{ include "numericSafe" .Values.git.branch | quote }}
+            - name: git_token
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-bot
+                  key: git-token
+            # nexus username = gitlab username of BOT to clone
+            - name: git_username
+              valueFrom:
+                secretKeyRef:
+                  name: nexus-bot
+                  key: username
+          volumeMounts:
+            - mountPath: /init-data
+              name: initrepo
+      volumes:
+        - name: zap-wrk
+          emptyDir: {}
+        - name: initrepo
+          emptyDir: {}
+      restartPolicy: Never
+  backoffLimit: {{ .Values.backoffLimit }}
